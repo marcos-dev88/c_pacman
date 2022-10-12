@@ -37,7 +37,7 @@ int main(){
 // checkMapColumns: This function returns the map's width.
 int checkMapColumns(){
     FILE *f;
-    char ( *columnsChar ) = malloc( 6000 * sizeof( char ) );
+    char ( *columnsChar ) = malloc(6000 * sizeof(char));
     int columns;
 
     f = fopen(MAP_FILE, "r");
@@ -50,6 +50,7 @@ int checkMapColumns(){
     fscanf(f, "%s", columnsChar); // This scan the first line and get all columns that map has 
     columns = strlen(columnsChar);
     columnsChar = realloc(columnsChar, columns);
+    free(columnsChar);
     
     fseek(f, 0, SEEK_SET); // pointing the file in first position (like first line)
     fprintf(f, "%s", columnsChar); //writing the columnsChar that we have "removed" from stack to read it b4
