@@ -14,6 +14,11 @@ int main(){
 
     f = fopen(MAP_FILE, "r");
 
+    if (f == NULL) {
+        printf("file doesn't exist");
+        exit(1);
+    }
+
     char map[lines][columns+1];
 
     for (int i = 0; i < lines; i++){
@@ -39,7 +44,7 @@ int checkMapColumns(){
 
     if (f == NULL){
         printf("error: file not found");
-        return 1;
+        exit(1);
     }
     
     fscanf(f, "%s", columnsChar); // This scan the first line and get all columns that map has 
@@ -60,6 +65,11 @@ int checkMapLines(){
     char fileChar;
 
     f = fopen(MAP_FILE, "r");
+
+    if (f == NULL) {
+        printf("file doesn't exist");
+        exit(1);
+    }
 
     while(fileChar != EOF){
         fileChar = fgetc(f);
