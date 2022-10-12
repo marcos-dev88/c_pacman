@@ -1,0 +1,2 @@
+int checkMapLines();
+int checkMapColumns();
