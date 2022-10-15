@@ -12,8 +12,7 @@ gameScreen gScreen;
 
 int main(){
     dimension d = defineDimension();
-
-    genMap(d);
+    gScreen = genMap(d);
 
     for (int i = 0; i < d.lines; i++){
         printf("%s\n", gScreen.map[i]);
@@ -50,8 +49,9 @@ void freeMap(int lines){
 
 
 // genMap: Allocs memory to vector map and write from file.
-void genMap(dimension d){
+gameScreen genMap(dimension d){
     FILE *f;
+    gameScreen gs;
 
     char **map = malloc(d.lines * sizeof(char*));
     for (int i = 0; i < d.lines; i++){
@@ -68,9 +68,12 @@ void genMap(dimension d){
         fscanf(f, "%s", map[i]);
     }
 
-    gScreen.map = map;
+    gs.map = map;
+    gs.dimensions = d;
 
     fclose(f);
+
+    return gs;
 }
 
 // checkMapColumns: This function returns the map's width.
