@@ -13,4 +13,4 @@ typedef struct gameScreen {
 
 
 dimension defineDimension();
-void genMap(dimension d);
+gameScreen genMap(dimension d);
