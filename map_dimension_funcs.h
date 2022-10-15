@@ -17,6 +17,8 @@ typedef struct direction {
 } direction;
 
 
-direction move(char key, gameScreen gs);
+direction move(char key, gameScreen* gs);
 dimension defineDimension();
 gameScreen genMap(dimension d);
+void freeMap(gameScreen* gs);
+int finishGame();
