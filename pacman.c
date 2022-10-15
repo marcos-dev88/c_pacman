@@ -8,7 +8,7 @@
 
 #define MAP_FILE "./map.txt"
 
-char** map;
+gameScreen gScreen;
 
 int main(){
     dimension d = defineDimension();
@@ -16,7 +16,7 @@ int main(){
     genMap(d);
 
     for (int i = 0; i < d.lines; i++){
-        printf("%s\n", map[i]);
+        printf("%s\n", gScreen.map[i]);
     }
 
     freeMap(d.lines);
@@ -43,9 +43,9 @@ void move(char direction){
 // freeMap: free memory allocated in map
 void freeMap(int lines){
     for(int i = 0; i < lines; i++){
-        free(map[i]);
+        free(gScreen.map[i]);
     }
-    free(map);
+    free(gScreen.map);
 }
 
 
@@ -53,7 +53,7 @@ void freeMap(int lines){
 void genMap(dimension d){
     FILE *f;
 
-    map = malloc(d.lines * sizeof(char*));
+    char **map = malloc(d.lines * sizeof(char*));
     for (int i = 0; i < d.lines; i++){
         map[i] = malloc((d.columns+1) * sizeof(char));
     }
@@ -67,6 +67,8 @@ void genMap(dimension d){
     for (int i = 0; i < d.lines; i++){
         fscanf(f, "%s", map[i]);
     }
+
+    gScreen.map = map;
 
     fclose(f);
 }

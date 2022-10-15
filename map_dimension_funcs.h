@@ -6,6 +6,11 @@ typedef struct dimension {
     int columns;
 } dimension;
 
+typedef struct gameScreen {
+    dimension dimensions;
+    char **map; 
+} gameScreen;
+
 
 dimension defineDimension();
 void genMap(dimension d);
