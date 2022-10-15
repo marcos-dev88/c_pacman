@@ -4,26 +4,41 @@
 
 #include "map_dimension_funcs.h"
 #include "map_memory.h"
+#include "direction.h"
 
 #define MAP_FILE "./map.txt"
 
 char** map;
 
 int main(){
-    int lines = checkMapLines();
-    int columns = checkMapColumns();
+    dimension d = defineDimension();
 
-    genMap(columns, lines);
+    genMap(d);
 
-    for (int i = 0; i < lines; i++){
+    for (int i = 0; i < d.lines; i++){
         printf("%s\n", map[i]);
     }
 
-    freeMap(lines);
+    freeMap(d.lines);
 
     return 0;
 }
 
+dimension defineDimension(){
+    int lines = checkMapLines();
+    int columns = checkMapColumns();
+    dimension d;
+
+    d.lines = lines;
+    d.columns = columns;
+
+    return d;
+}
+
+void move(char direction){
+
+    
+}
 
 // freeMap: free memory allocated in map
 void freeMap(int lines){
@@ -35,12 +50,12 @@ void freeMap(int lines){
 
 
 // genMap: Allocs memory to vector map and write from file.
-void genMap(int columns, int lines){
+void genMap(dimension d){
     FILE *f;
 
-    map = malloc(lines * sizeof(char*));
-    for (int i = 0; i < lines; i++){
-        map[i] = malloc((columns+1) * sizeof(char));
+    map = malloc(d.lines * sizeof(char*));
+    for (int i = 0; i < d.lines; i++){
+        map[i] = malloc((d.columns+1) * sizeof(char));
     }
 
     f = fopen(MAP_FILE, "r");
@@ -49,7 +64,7 @@ void genMap(int columns, int lines){
         exit(1);
     }
 
-    for (int i = 0; i < lines; i++){
+    for (int i = 0; i < d.lines; i++){
         fscanf(f, "%s", map[i]);
     }
 
