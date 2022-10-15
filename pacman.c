@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "map_dimension_funcs.h"
-#include "map_memory.h"
 
 #define MAP_FILE "./map.txt"
 
@@ -20,14 +19,14 @@ int main(){
             printf("%s\n", gScreen.map[i]);
         }
 
-        scanf(" %c", &directionKey);
-        direction d = move(directionKey, gScreen);
+        scanf(" %c", &directionKey); 
+        direction d = move(directionKey, &gScreen);
 
         gScreen.map[d.x][d.y] = '@';
 
     }while(!finishGame());
     
-    freeMap(d.lines);
+    freeMap(&gScreen);
 
     return 0;
 }
@@ -47,14 +46,14 @@ dimension defineDimension(){
     return d;
 }
 
-direction move(char key, gameScreen gs){
+direction move(char key, gameScreen* gs){
     direction out;
     int x;
     int y;
 
-    for(int i = 0; i < gs.dimensions.lines; i++){
-        for (int c = 0; c < gs.dimensions.columns; c++){
-            if(gs.map[i][c] == '@'){
+    for(int i = 0; i < gs->dimensions.lines; i++){
+        for (int c = 0; c < gs->dimensions.columns; c++){
+            if(gs->map[i][c] == '@'){
                 x = i;
                 y = c;
                 break;
@@ -63,7 +62,7 @@ direction move(char key, gameScreen gs){
     }
 
 
-    gs.map[x][y] = '.';
+    gs->map[x][y] = '.';
 
     switch(key){
         case 'w': 
@@ -92,11 +91,11 @@ direction move(char key, gameScreen gs){
 }
 
 // freeMap: free memory allocated in map
-void freeMap(int lines){
-    for(int i = 0; i < lines; i++){
-        free(gScreen.map[i]);
+void freeMap(gameScreen* gs){
+    for(int i = 0; i < gs->dimensions.lines; i++){
+        free(gs->map[i]);
     }
-    free(gScreen.map);
+    free(gs->map);
 }
 
 
