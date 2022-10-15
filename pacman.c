@@ -13,6 +13,7 @@ int main(){
     dimension d = defineDimension();
     gScreen = genMap(d);
     char directionKey;
+    findPacmanPosition(&gScreen);
 
     do {
         // This loop is to print the map
@@ -21,9 +22,8 @@ int main(){
         }
 
         scanf(" %c", &directionKey); 
-        direction d = move(directionKey, &gScreen);
-
-        gScreen.map[d.x][d.y] = '@';
+        move(directionKey, &gScreen);
+        
 
     }while(!finishGame());
     
@@ -47,48 +47,41 @@ dimension defineDimension(){
     return d;
 }
 
-direction move(char key, gameScreen* gs){
-    direction out;
-    int x;
-    int y;
+void findPacmanPosition(gameScreen* gs){
 
     for(int i = 0; i < gs->dimensions.lines; i++){
         for (int c = 0; c < gs->dimensions.columns; c++){
             if(gs->map[i][c] == '@'){
-                x = i;
-                y = c;
+                gs->dimensions.lines = i;
+                 gs->dimensions.columns = c;
                 break;
             }
         }
     }
+}
 
-
-    gs->map[x][y] = '.';
+void move(char key, gameScreen* gs){
+    
+    gs->map[gs->dimensions.lines][gs->dimensions.columns] = '.';
 
     switch(key){
         case 'w': 
-           out.x = x-1;
-           out.y = y;
-           return out;
+            gScreen.map[gs->dimensions.lines-1][gs->dimensions.columns] = '@';    
+            gs->dimensions.lines--;
             break;
         case 'a':
-           out.x = x;
-           out.y = y-1;
-           return out;
+            gScreen.map[gs->dimensions.lines][gs->dimensions.columns-1] = '@';    
+            gs->dimensions.columns--;
             break;
         case 's':
-           out.x = x+1;
-           out.y = y;
-           return out;
+            gScreen.map[gs->dimensions.lines+1][gs->dimensions.columns] = '@';    
+            gs->dimensions.lines++;
             break;
         case 'd':
-           out.x = x;
-           out.y = y+1;
-           return out;
-            break; 
-    }
-    return out;
-    
+            gScreen.map[gs->dimensions.lines][gs->dimensions.columns+1] = '@';    
+            gs->dimensions.columns++;
+            break;
+    } 
 }
 
 // freeMap: free memory allocated in map
