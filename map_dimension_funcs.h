@@ -11,6 +11,12 @@ typedef struct gameScreen {
     char **map; 
 } gameScreen;
 
+typedef struct direction {
+    int x;
+    int y;
+} direction;
 
+
+direction move(char key, gameScreen gs);
 dimension defineDimension();
 gameScreen genMap(dimension d);
