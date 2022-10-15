@@ -4,7 +4,6 @@
 
 #include "map_dimension_funcs.h"
 #include "map_memory.h"
-#include "direction.h"
 
 #define MAP_FILE "./map.txt"
 
@@ -13,13 +12,27 @@ gameScreen gScreen;
 int main(){
     dimension d = defineDimension();
     gScreen = genMap(d);
+    char directionKey;
 
-    for (int i = 0; i < d.lines; i++){
-        printf("%s\n", gScreen.map[i]);
-    }
+    do {
+        // This loop is to print the map
+        for (int i = 0; i < d.lines; i++){
+            printf("%s\n", gScreen.map[i]);
+        }
 
+        scanf(" %c", &directionKey);
+        direction d = move(directionKey, gScreen);
+
+        gScreen.map[d.x][d.y] = '@';
+
+    }while(!finishGame());
+    
     freeMap(d.lines);
 
+    return 0;
+}
+
+int finishGame(){
     return 0;
 }
 
@@ -34,8 +47,47 @@ dimension defineDimension(){
     return d;
 }
 
-void move(char direction){
+direction move(char key, gameScreen gs){
+    direction out;
+    int x;
+    int y;
 
+    for(int i = 0; i < gs.dimensions.lines; i++){
+        for (int c = 0; c < gs.dimensions.columns; c++){
+            if(gs.map[i][c] == '@'){
+                x = i;
+                y = c;
+                break;
+            }
+        }
+    }
+
+
+    gs.map[x][y] = '.';
+
+    switch(key){
+        case 'w': 
+           out.x = x-1;
+           out.y = y;
+           return out;
+            break;
+        case 'a':
+           out.x = x;
+           out.y = y-1;
+           return out;
+            break;
+        case 's':
+           out.x = x+1;
+           out.y = y;
+           return out;
+            break;
+        case 'd':
+           out.x = x;
+           out.y = y+1;
+           return out;
+            break; 
+    }
+    return out;
     
 }
 
