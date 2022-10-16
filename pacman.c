@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-
+#include "game_behavior.h"
 #include "map_dimension_funcs.h"
 
 #define MAP_FILE "./map.txt"
