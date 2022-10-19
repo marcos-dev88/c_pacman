@@ -19,7 +19,7 @@ int main(){
         // This loop is to print the map
         for (int i = 0; i < d.lines; i++){
             printf("%s\n", gScreen.map[i]);
-        }
+        } 
 
         scanf(" %c", &directionKey); 
         move(directionKey, &gScreen);
