@@ -1,3 +1,6 @@
+
+#define MAP_FILE "./map.txt"
+
 #ifndef DIMENSION
 #define DIMENSION
 typedef struct dimension {
