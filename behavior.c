@@ -20,43 +20,61 @@ void findPacmanPosition(gameScreen* gs){
     }
 }
 
-void move(char key, gameScreen* gs, dimension mapD){
-    if(key != 'w' && key != 'a' && key != 's' &&  key != 'd'){
-        return;
+int isValidMoveKey(char key){
+    return key == 'w' || key == 'a' || key == 's' ||  key == 'd';
+}
+
+int isValidLimits(int x, int y, dimension mapD, gameScreen* gs){
+    int isValid = 1;
+
+    if(x >= mapD.lines){
+        isValid = 0;
     }
 
-    int nextX = gs->dimensions.lines;
-    int nextY = gs->dimensions.columns;
+    if(y >= mapD.columns){
+        isValid = 0;
+    }
+
+    if (gs->map[x][y] == '|' || gs->map[x][y] == '-'){
+        isValid = 0;
+    }
+
+    return isValid;
+}
+
+
+
+void move(char key, gameScreen* gs, dimension mapD){
+
+    if (!isValidMoveKey(key)){
+        return;
+    }
+    
+    int moveX = gs->dimensions.lines;
+    int moveY = gs->dimensions.columns;
 
     switch(key){
         case 'w': 
-            nextX--;
+            moveX--;
             break;
         case 'a':
-            nextY--;
+            moveY--;
             break;
         case 's':
-            nextX++;
+            moveX++;
             break;
         case 'd':
-            nextY++;
+            moveY++;
             break;
     } 
     
-    if(nextX >= mapD.lines){
-        return;
-    }
+   if (!isValidLimits(moveX, moveY, mapD, gs)) {
+       return;
+   }
 
-    if(nextY >= mapD.columns){
-        return;
-    }
-
-    if (gs->map[nextX][nextY] == '|' || gs->map[nextX][nextY] == '-'){
-        return;
-    }
-
-    gs->map[nextX][nextY] = '@';
+    // after the validations, the pacman can move here:
+    gs->map[moveX][moveY] = '@';
     gs->map[gs->dimensions.lines][gs->dimensions.columns] = ' ';
-    gs->dimensions.lines = nextX;
-    gs->dimensions.columns = nextY;
+    gs->dimensions.lines = moveX;
+    gs->dimensions.columns = moveY;
 }
