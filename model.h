@@ -1,6 +1,19 @@
 
 #define MAP_FILE "./map.txt"
 
+// pacman moves
+#define PACMAN_UP 'w'
+#define PACMAN_DOWN 's'
+#define PACMAN_LEFT 'a'
+#define PACMAN_RIGHT 'd'
+
+#define PACMAN_ICON '@'
+#define EATEN_CHEESE ' '
+
+//walls
+#define WALL_1 '|'
+#define WALL_2 '-'
+
 #ifndef DIMENSION
 #define DIMENSION
 typedef struct dimension {
