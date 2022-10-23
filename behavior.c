@@ -20,7 +20,7 @@ void findPacmanPosition(gameScreen* gs){
     }
 }
 
-void move(char key, gameScreen* gs, dimension mapD){    
+void move(char key, gameScreen* gs, dimension mapD){
     if(key != 'w' && key != 'a' && key != 's' &&  key != 'd'){
         return;
     }
@@ -51,12 +51,12 @@ void move(char key, gameScreen* gs, dimension mapD){
         return;
     }
 
-    if (gs->map[nextX][nextY] != '.'){
+    if (gs->map[nextX][nextY] == '|' || gs->map[nextX][nextY] == '-'){
         return;
     }
 
-    gs->map[nextX][nextY] = '@';    
-    gs->map[gs->dimensions.lines][gs->dimensions.columns] = '.';
+    gs->map[nextX][nextY] = '@';
+    gs->map[gs->dimensions.lines][gs->dimensions.columns] = ' ';
     gs->dimensions.lines = nextX;
     gs->dimensions.columns = nextY;
 }
