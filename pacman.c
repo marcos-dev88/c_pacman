@@ -16,12 +16,14 @@ int main(){
 
     do {
         // This loop is to print the map
+        system("clear");
+        printf("\n\n\n");
         for (int i = 0; i < d.lines; i++){
-            printf("%s\n", gScreen.map[i]);
+            printf("\t\t\t\t%s\n", gScreen.map[i]);
         } 
 
         scanf(" %c", &directionKey); 
-        move(directionKey, &gScreen);
+        move(directionKey, &gScreen, d);
         
 
     }while(!finishGame());

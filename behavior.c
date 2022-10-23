@@ -20,25 +20,43 @@ void findPacmanPosition(gameScreen* gs){
     }
 }
 
-void move(char key, gameScreen* gs){    
-    gs->map[gs->dimensions.lines][gs->dimensions.columns] = '.';
+void move(char key, gameScreen* gs, dimension mapD){    
+    if(key != 'w' && key != 'a' && key != 's' &&  key != 'd'){
+        return;
+    }
+
+    int nextX = gs->dimensions.lines;
+    int nextY = gs->dimensions.columns;
 
     switch(key){
         case 'w': 
-            gs->map[gs->dimensions.lines-1][gs->dimensions.columns] = '@';    
-            gs->dimensions.lines--;
+            nextX--;
             break;
         case 'a':
-            gs->map[gs->dimensions.lines][gs->dimensions.columns-1] = '@';    
-            gs->dimensions.columns--;
+            nextY--;
             break;
         case 's':
-            gs->map[gs->dimensions.lines+1][gs->dimensions.columns] = '@';    
-            gs->dimensions.lines++;
+            nextX++;
             break;
         case 'd':
-            gs->map[gs->dimensions.lines][gs->dimensions.columns+1] = '@';    
-            gs->dimensions.columns++;
+            nextY++;
             break;
     } 
+    
+    if(nextX >= mapD.lines){
+        return;
+    }
+
+    if(nextY >= mapD.columns){
+        return;
+    }
+
+    if (gs->map[nextX][nextY] != '.'){
+        return;
+    }
+
+    gs->map[nextX][nextY] = '@';    
+    gs->map[gs->dimensions.lines][gs->dimensions.columns] = '.';
+    gs->dimensions.lines = nextX;
+    gs->dimensions.columns = nextY;
 }
