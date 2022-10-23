@@ -11,7 +11,7 @@ int finishGame(){
 void findPacmanPosition(gameScreen* gs){
     for(int i = 0; i < gs->dimensions.lines; i++){
         for (int c = 0; c < gs->dimensions.columns; c++){
-            if(gs->map[i][c] == '@'){
+            if(gs->map[i][c] == PACMAN_ICON){
                 gs->dimensions.lines = i;
                  gs->dimensions.columns = c;
                 break;
@@ -21,7 +21,7 @@ void findPacmanPosition(gameScreen* gs){
 }
 
 int isValidMoveKey(char key){
-    return key == 'w' || key == 'a' || key == 's' ||  key == 'd';
+    return key == PACMAN_UP || key == PACMAN_DOWN || key == PACMAN_LEFT ||  key == PACMAN_RIGHT;
 }
 
 int isValidLimits(int x, int y, dimension mapD, gameScreen* gs){
@@ -35,14 +35,12 @@ int isValidLimits(int x, int y, dimension mapD, gameScreen* gs){
         isValid = 0;
     }
 
-    if (gs->map[x][y] == '|' || gs->map[x][y] == '-'){
+    if (gs->map[x][y] == WALL_1 || gs->map[x][y] == WALL_2){
         isValid = 0;
     }
 
     return isValid;
 }
-
-
 
 void move(char key, gameScreen* gs, dimension mapD){
 
@@ -54,16 +52,16 @@ void move(char key, gameScreen* gs, dimension mapD){
     int moveY = gs->dimensions.columns;
 
     switch(key){
-        case 'w': 
+        case PACMAN_UP: 
             moveX--;
             break;
-        case 'a':
+        case PACMAN_LEFT:
             moveY--;
             break;
-        case 's':
+        case PACMAN_DOWN:
             moveX++;
             break;
-        case 'd':
+        case PACMAN_RIGHT:
             moveY++;
             break;
     } 
@@ -73,8 +71,8 @@ void move(char key, gameScreen* gs, dimension mapD){
    }
 
     // after the validations, the pacman can move here:
-    gs->map[moveX][moveY] = '@';
-    gs->map[gs->dimensions.lines][gs->dimensions.columns] = ' ';
+    gs->map[moveX][moveY] = PACMAN_ICON;
+    gs->map[gs->dimensions.lines][gs->dimensions.columns] = EATEN_CHEESE;
     gs->dimensions.lines = moveX;
     gs->dimensions.columns = moveY;
 }
