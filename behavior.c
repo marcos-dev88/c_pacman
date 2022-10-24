@@ -72,7 +72,7 @@ void move(char key, gameScreen* gs, dimension mapD){
 
     // after the validations, the pacman can move here:
     gs->map[moveX][moveY] = PACMAN_ICON;
-    gs->map[gs->dimensions.lines][gs->dimensions.columns] = EATEN_CHEESE;
+    gs->map[gs->dimensions.lines][gs->dimensions.columns] = EMPTY_FIELD;
     gs->dimensions.lines = moveX;
     gs->dimensions.columns = moveY;
 }
