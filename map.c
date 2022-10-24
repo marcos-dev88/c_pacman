@@ -12,7 +12,6 @@ void freeMap(gameScreen* gs){
     free(gs->map);
 }
 
-
 dimension defineDimension(){
     int lines = checkMapLines();
     int columns = checkMapColumns();
@@ -42,14 +41,21 @@ gameScreen genMap(dimension d){
 
     for (int i = 0; i < d.lines; i++){
         fscanf(f, "%s", map[i]);
+        genEmptyFields(i, map);
     }
 
     gs.map = map;
     gs.dimensions = d;
-
     fclose(f);
-
     return gs;
+}
+
+void genEmptyFields(int line, char** map){
+    for (int c = 0; c < strlen(map[line]); c++){
+        if(map[line][c] == SUBSTITUTION_EMPTY_FIELD){
+            map[line][c] = EMPTY_FIELD;
+        }
+    }
 }
 
 // checkMapColumns: This function returns the map's width.
