@@ -8,7 +8,8 @@
 #define PACMAN_RIGHT 'd'
 
 #define PACMAN_ICON '@'
-#define EATEN_CHEESE ' '
+#define EMPTY_FIELD ' '
+#define SUBSTITUTION_EMPTY_FIELD ','
 
 //walls
 #define WALL_1 '|'
