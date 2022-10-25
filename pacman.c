@@ -6,29 +6,34 @@
 #include "map_dimension_funcs.h"
 
 
-gameScreen gScreen;
+gameScreen gScreenPacman;
+gameScreen gScreenGhost;
 
 int main(){
     dimension d = defineDimension();
-    gScreen = genMap(d);
+    gScreenPacman = genMap(d);
+
+    gScreenGhost = gScreenPacman;
     char directionKey;
-    findPacmanPosition(&gScreen);
+    findPacmanPosition(&gScreenPacman);
+    /* findGhostsPosition(&gScreenGhost); */
 
     do {
+
         // This loop is to print the map
         system("clear");
         printf("\n\n\n");
         for (int i = 0; i < d.lines; i++){
-            printf("\t\t\t\t%s\n", gScreen.map[i]);
+            printf("\t\t\t\t%s\n", gScreenPacman.map[i]);
         } 
 
         scanf(" %c", &directionKey); 
-        move(directionKey, &gScreen, d);
-        
+        ghosts(&gScreenGhost, d);
+        movePacman(directionKey, &gScreenPacman, d); 
 
     }while(!finishGame());
     
-    freeMap(&gScreen);
+    freeMap(&gScreenPacman);
 
     return 0;
 }
