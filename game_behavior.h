@@ -7,6 +7,6 @@ int finishGame();
 void findPacmanPosition(gameScreen* gs);
 void findGhostsPosition(gameScreen* gs, dimension mapD);
 void ghosts(gameScreen* gs, dimension mapD);
-void moveGhosts(gameScreen* gs, dimension mapD);
+void moveGhosts(gameScreen* gs, dimension mapD, int x, int y);
 char checkLastField(int x, int y, char** map);
-
+void copyGs(gameScreen* fromGs, gameScreen* toGs);

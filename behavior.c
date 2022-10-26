@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
+#include "./map_dimension_funcs.h"
 #include "./game_behavior.h"
 
 
@@ -13,7 +15,7 @@ void findPacmanPosition(gameScreen* gs){
         for (int c = 0; c < gs->dimensions.columns; c++){
             if(gs->map[i][c] == PACMAN_ICON){
                 gs->dimensions.lines = i;
-                 gs->dimensions.columns = c;
+                gs->dimensions.columns = c;
                 break;
             }
         }
@@ -21,15 +23,25 @@ void findPacmanPosition(gameScreen* gs){
 }
 
 void findGhostsPosition(gameScreen* gs, dimension mapD){
+    gameScreen newGs;
+    newGs = genMap(mapD);
+    newGs.dimensions = gs->dimensions;
+    /* copyGs(gs, &newGs); */
+
     for(int i = 0; i < gs->dimensions.lines; i++){
-        for (int c = 0; c < gs->dimensions.columns; c++){
-            if(gs->map[i][c] == GHOST_ICON){
-                gs->dimensions.lines = i;
-                gs->dimensions.columns = c;
-                moveGhosts(gs, mapD);
+        strcpy(newGs.map[i], gs->map[i]);
+    }
+
+    for(int i = 0; i < newGs.dimensions.lines; i++){
+        for (int c = 0; c < newGs.dimensions.columns; c++){
+            if(newGs.map[i][c] == GHOST_ICON){
+                printf("data: %d | %d", i, c);
+                moveGhosts(gs, mapD, i, c);
             }
         }
     }
+
+    freeMap(&newGs);
 }
 
 int isValidMoveKey(char key){
@@ -93,10 +105,10 @@ void movePacman(char key, gameScreen* gs, dimension mapD){
     gs->dimensions.columns = moveY;
 }
 
-void moveGhosts(gameScreen* gs, dimension mapD){
+void moveGhosts(gameScreen* gs, dimension mapD, int x, int y){
 
-    int moveX = gs->dimensions.lines;
-    int moveY = gs->dimensions.columns+1;
+    int moveX = x;
+    int moveY = y+1;
 
     if (!isValidLimits(moveX, moveY, mapD, gs)) {
        return;
@@ -104,9 +116,7 @@ void moveGhosts(gameScreen* gs, dimension mapD){
 
     // after the validations, the ghost can move here:
     gs->map[moveX][moveY] = GHOST_ICON;
-    gs->map[gs->dimensions.lines][gs->dimensions.columns] = checkLastField(gs->dimensions.lines, gs->dimensions.columns, gs->map);
-    gs->dimensions.lines = moveX;
-    gs->dimensions.columns = moveY;    
+    gs->map[x][y] = checkLastField(x, y, gs->map);
 }
 
 char checkLastField(int x, int y, char** map){
