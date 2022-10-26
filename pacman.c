@@ -16,7 +16,6 @@ int main(){
     gScreenGhost = gScreenPacman;
     char directionKey;
     findPacmanPosition(&gScreenPacman);
-    /* findGhostsPosition(&gScreenGhost); */
 
     do {
 
@@ -27,13 +26,14 @@ int main(){
             printf("\t\t\t\t%s\n", gScreenPacman.map[i]);
         } 
 
-        scanf(" %c", &directionKey); 
-        ghosts(&gScreenGhost, d);
+        scanf(" %c", &directionKey);
         movePacman(directionKey, &gScreenPacman, d); 
+        ghosts(&gScreenPacman, d);
 
     }while(!finishGame());
     
     freeMap(&gScreenPacman);
+    freeMap(&gScreenGhost);
 
     return 0;
 }
