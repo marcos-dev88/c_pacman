@@ -8,7 +8,9 @@
 #define PACMAN_RIGHT 'd'
 
 #define PACMAN_ICON '@'
+#define GHOST_ICON '*'
 #define EMPTY_FIELD ' '
+#define CHEESE_BALL '.'
 #define SUBSTITUTION_EMPTY_FIELD ','
 
 //walls
