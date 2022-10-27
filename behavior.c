@@ -25,17 +25,14 @@ void findPacmanPosition(gameScreen* gs){
 void findGhostsPosition(gameScreen* gs, dimension mapD){
     gameScreen newGs;
     newGs = genMap(mapD);
-    newGs.dimensions = gs->dimensions;
-    /* copyGs(gs, &newGs); */
 
-    for(int i = 0; i < gs->dimensions.lines; i++){
+    for(int i = 0; i < newGs.dimensions.lines; i++){
         strcpy(newGs.map[i], gs->map[i]);
     }
 
     for(int i = 0; i < newGs.dimensions.lines; i++){
         for (int c = 0; c < newGs.dimensions.columns; c++){
             if(newGs.map[i][c] == GHOST_ICON){
-                printf("data: %d | %d", i, c);
                 moveGhosts(gs, mapD, i, c);
             }
         }
