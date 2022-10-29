@@ -22,25 +22,6 @@ void findPacmanPosition(gameScreen* gs){
     }
 }
 
-void findGhostsPosition(gameScreen* gs, dimension mapD){
-    gameScreen newGs;
-    newGs = genMap(mapD);
-
-    for(int i = 0; i < newGs.dimensions.lines; i++){
-        strcpy(newGs.map[i], gs->map[i]);
-    }
-
-    for(int i = 0; i < newGs.dimensions.lines; i++){
-        for (int c = 0; c < newGs.dimensions.columns; c++){
-            if(newGs.map[i][c] == GHOST_ICON){
-                moveGhosts(gs, mapD, i, c);
-            }
-        }
-    }
-
-    freeMap(&newGs);
-}
-
 int isValidMoveKey(char key){
     return key == PACMAN_UP || key == PACMAN_DOWN || key == PACMAN_LEFT ||  key == PACMAN_RIGHT;
 }
@@ -64,7 +45,22 @@ int isValidLimits(int x, int y, dimension mapD, gameScreen* gs){
 }
 
 void ghosts(gameScreen* gs, dimension mapD){
-    findGhostsPosition(gs, mapD);
+    gameScreen newGs;
+    newGs = genMap(mapD);
+
+    for(int i = 0; i < newGs.dimensions.lines; i++){
+        strcpy(newGs.map[i], gs->map[i]);
+    }
+
+    for(int i = 0; i < newGs.dimensions.lines; i++){
+        for (int c = 0; c < newGs.dimensions.columns; c++){
+            if(newGs.map[i][c] == GHOST_ICON){
+                moveGhosts(gs, mapD, i, c);
+            }
+        }
+    }
+
+    freeMap(&newGs);
 }
 
 void movePacman(char key, gameScreen* gs, dimension mapD){
@@ -112,11 +108,12 @@ void moveGhosts(gameScreen* gs, dimension mapD, int x, int y){
     }
 
     // after the validations, the ghost can move here:
+    gs->map[x][y] = checkLastField(moveX, moveY, gs->map);
     gs->map[moveX][moveY] = GHOST_ICON;
-    gs->map[x][y] = checkLastField(x, y, gs->map);
 }
 
 char checkLastField(int x, int y, char** map){
+    /* printf("\ndata: %c", map[x][y]); */
     return map[x][y] == CHEESE_BALL ? CHEESE_BALL : EMPTY_FIELD;
 }
 

@@ -10,6 +10,7 @@ void freeMap(gameScreen* gs){
         free(gs->map[i]);
     }
     free(gs->map);
+    gs->map = NULL;
 }
 
 dimension defineDimension(){
